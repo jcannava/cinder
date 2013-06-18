@@ -72,6 +72,14 @@ case node["cinder"]["storage"]["provider"]
       mode "644"
       notifies :restart, "service[iscsitarget]", :immediately
     end
+    if node["cinder"]["storage"]["emc"]["MultiPath"] == true
+        template "/etc/multipath.conf" do
+            source "multipath.conf.erb"
+            owner "root"
+            group "root"
+            mode "700"
+        end
+    end
   when "netappnfsdirect"
     node["cinder"]["storage"]["netapp"]["nfsdirect"]["packages"].each do |pkg|
       package pkg do

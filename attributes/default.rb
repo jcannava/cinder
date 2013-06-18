@@ -39,6 +39,7 @@ default["cinder"]["storage"]["emc"]["EcomServerPort"] = 5988
 default["cinder"]["storage"]["emc"]["EcomUserName"] = "admin"
 default["cinder"]["storage"]["emc"]["EcomPassword"] = nil
 default["cinder"]["storage"]["emc"]["MaskingView"] = nil # VMAX only
+default["cinder"]["storage"]["emc"]["MultiPath"] = true
 
 # netapp settings - set these if you are using netappiscsi/netappnfs
 # as the storage provider above
@@ -84,7 +85,7 @@ when "rhel"
     "supporting_packages" => ["python-cinderclient", "MySQL-python", "python-keystone"],
     "package_overrides" => ""
   }
-  default["cinder"]["storage"]["emc"]["packages"] = ["pywbem"]
+  default["cinder"]["storage"]["emc"]["packages"] = ["pywbem", "device-mapper-multipath"]
   default["cinder"]["storage"]["netapp"]["nfsdirect"]["packages"] = ["nfs-utils", "sysfsutils"]
 when "debian"
   default["cinder"]["platform"] = {                                                   # node_attribute
@@ -99,6 +100,6 @@ when "debian"
     "supporting_packages" => ["python-cinderclient", "python-mysqldb"],
     "package_overrides" => "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
   }
-  default["cinder"]["storage"]["emc"]["packages"] = ["python-pywbem"]
+  default["cinder"]["storage"]["emc"]["packages"] = ["python-pywbem","multipath-tools"]
   default["cinder"]["storage"]["netapp"]["nfsdirect"]["packages"] = ["nfs-common", "sysfsutils"]
 end
